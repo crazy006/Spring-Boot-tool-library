@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>crazy WebSocket</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+Welcome<br/>
+<input id="text" type="text" /><button onclick="send()">Send to baby</button>    <button onclick="closeWebSocket()">Close</button>
+<p>注意消息内容为json格式，code只在推送方体现其为200表示成功，如：{"to":"接收方","date":推送时间,"from":"推送方","content":"推送内容","code":"推送状态码","remark":"备注信息"}</p>
+<h4>收到消息</h4>
+<div id="message">
+</div>
+</body>
+
+<script type="text/javascript">
+    var websocket = null;
+
+    //判断当前浏览器是否支持WebSocket
+    if('WebSocket' in window){
+        websocket = new WebSocket("ws://127.0.0.1:8089/ws/crazy");
+    }
+    else{
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function(){
+        setMessageInnerHTML("error");
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function(event){
+        setMessageInnerHTML("已经连接上websocket！！！");
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(event){
+        setMessageInnerHTML(event.data);
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function(){
+        setMessageInnerHTML("连接已经断开！！！");
+    }
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function(){
+        websocket.close();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML){
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+
+    //关闭连接
+    function closeWebSocket(){
+        websocket.close();
+    }
+
+    //发送消息
+    function send(){
+        var messageModel = {};
+        messageModel.to = "baby";
+        messageModel.date = new Date().getTime();
+        messageModel.content = document.getElementById('text').value;;
+        messageModel.from = "crazy";
+        websocket.send(JSON.stringify(messageModel));
+    }
+</script>
+</html>
