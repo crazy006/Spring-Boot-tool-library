@@ -14,7 +14,7 @@ public enum ResultEnum {
     PUSH_SUCCESS(200, "发送成功！！"),
     SUCCESS(200, "成功！！"),
     ERROR(-1, "未知错误"),
-    ERROR_TOKEN(203, "无效的Token！！"),
+    ERROR_PASSWORD(203, "密码错误"),
     ;
 
     private Integer code;

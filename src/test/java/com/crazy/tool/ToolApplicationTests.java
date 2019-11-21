@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,6 @@ import java.util.List;
 class ToolApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
-
     @Test
     void contextLoads() {
     }
@@ -54,6 +55,12 @@ class ToolApplicationTests {
         //从get缓存的时候不能直接转换成Long对象，否则会报转换类型错误
         Integer cacheL = (Integer) redisTemplate.opsForValue().get("crazy-cache-long");
         log.info("crazy-cache-long==" + cacheL);
+    }
+    @Test
+    void testIp() throws UnknownHostException {
+        InetAddress address = InetAddress.getLocalHost();
+        String ip = address.getHostAddress();
+        log.info("=======ip=======" + ip);
     }
 
 }

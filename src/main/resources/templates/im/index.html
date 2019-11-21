@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>世界欢迎您</title>
+</head>
+<body>
+    <div>
+        登陆成功！欢迎您【<span th:text="${userId}" style="color: blue"></span> 】
+        <p><a th:href="@{'/im/chat?userId='+${userId}}" >进入聊天室</a></p>
+    </div>
+</body>
+</html>

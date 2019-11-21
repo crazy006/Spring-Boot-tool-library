@@ -9,4 +9,5 @@ package com.crazy.tool.library.entity;
  **/
 public class UserConstant {
     public static final String USER_KEY = "CRAZY-006";
+    public static final String ONLINE_USER_KEY = "ONLINE-USERS";
 }
